@@ -1,0 +1,6 @@
+tmp/
+build/
+*.pdf_tex/
+conference.pdf
+*.sublime-project
+*.sublime-workspace
