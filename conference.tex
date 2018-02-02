@@ -54,8 +54,11 @@ optimization, and charged system search among others. This work presents a new
 optimization algorithm based on some principles from physics and
 mechanics, which is called Evolutionary Centers Algorithm (ECA). We utilize 
 the center of mass definition for creating new directions for moving the worst 
-elements in the population,  based on their objective function values and constraints regions, to feasible regions of the search space.  The efficiency of the new approach is showed by using the CEC 2017 competition benchmark functions for constrained optimization. We present a comparison against a competitive algorithm (CAL-SHADE) 
-in such competition.  The results obtained are promising.
+elements in the population,  based on their objective function values and constraints 
+regions, to feasible regions of the search space.  The efficiency of the new 
+approach is showed by using the CEC 2017 competition benchmark functions for 
+constrained optimization. We present a comparison against a competitive algorithm 
+(CAL-SHADE)  in such competition.  The results obtained are promising.
 \end{abstract}
 
 \begin{IEEEkeywords}
@@ -63,7 +66,10 @@ Constrained optimization, center of mass, evolutionary algorithm, physics-inspir
 \end{IEEEkeywords}
 
 \section{Introduction}
-Constrained optimization problems are complex to solve due to constraints divide the search space into infeasible and feasible search space, highly non-linear objective function and large number of variables. Here, we consider the constrained optimization problem in the form defined in \cite{cecCop17}:\\
+Constrained optimization problems are complex to solve due to constraints divide 
+the search space into infeasible and feasible search space, highly non-linear 
+objective function and large number of variables. Here, we consider the constrained 
+optimization problem in the form defined in \cite{cecCop17}:\\
 
 \noindent
 Minimize:
@@ -78,10 +84,22 @@ subject to:
 	h_j(\vec{x}) &\leq 0,& j =& p+1, \ldots, m
 \end{align*}
 %
-where $S = \prod_{k = 1}^D  [ x_{k,\min},\ x_{k,\max} ]$ i.e. $x_k \in [ x_{k,\min},\ x_{k,\max} ]$ for $k = 1,2,\ldots,D$. The problem is subject to $p$ inequality constraints and $m - p$ equality constraints. If $\vec{x}$ satisfies $g_i( \vec{x} ) \leq 0$, for $i = 1, \ldots, p$ and $|h_j(\vec{x})| \leq \varepsilon$, for $j = p+1, \ldots, m$ with $\varepsilon > 0$ a small value; then $\vec{x}$ is regarded feasible.\\
+where $S = \prod_{k = 1}^D  [ x_{k,\min},\ x_{k,\max} ]$ i.e. 
+$x_k \in [ x_{k,\min},\ x_{k,\max} ]$ for $k = 1,2,\ldots,D$.  The problem is 
+subject to $p$ inequality constraints and $m - p$ equality constraints. If 
+$\vec{x}$ satisfies $g_i( \vec{x} ) \leq 0$, for $i = 1, \ldots, p$ and 
+$|h_j(\vec{x})| \leq \varepsilon$, for $j = p+1, \ldots, m$ with 
+$\varepsilon > 0$ a small value; then $\vec{x}$ is regarded feasible.\\
 
 
-The rest of the paper is organized as follows. A brief review of population-based algorithms for constrained optimization problems is presented in Section \ref{sec:related_work}. Section \ref{sec:eca} describes the proposal of new meta-heuristic for the solution of constrained optimization problem and the constrained handling. Specification of experiments and control parameter setting are given in Section \ref{sec:experiments}. Experimental results including and a comparison against a competitive algorithm are presented in Section \ref{sec:results}. Conclusions and future work are made in Section \ref{sec:conclusions} and \ref{sec:future_work} respectively.
+The rest of the paper is organized as follows. A brief review of population-based 
+algorithms for constrained optimization problems is presented in Section \ref{sec:related_work}. 
+Section \ref{sec:eca} describes the proposal of new meta-heuristic for the solution 
+of constrained optimization problem and the constrained handling. Specification of 
+experiments and control parameter setting are given in Section \ref{sec:experiments}. 
+Experimental results including and a comparison against a competitive algorithm 
+are presented in Section \ref{sec:results}. Conclusions and future work are made 
+in Section \ref{sec:conclusions} and \ref{sec:future_work} respectively.
 
 
 \section{Related Work} % (fold)
@@ -89,19 +107,36 @@ The rest of the paper is organized as follows. A brief review of population-base
 
 Population based algorithm can be classified into three main classes:
 evolutionary, physics-based, and swarm intelligence algorithms.
-Some of the EAs are Genetic Algorithm \cite{melanie96}, Differential Evolution (DE) \cite{ed1995}, Evolutionary Programing (EP), Evolution Strategy (ES) and Genetic Programming (GP) \cite{back,spall03}.
+Some of the EAs are Genetic Algorithm \cite{melanie96}, Differential Evolution 
+(DE) \cite{ed1995}, Evolutionary Programing (EP), Evolution Strategy (ES) and 
+Genetic Programming (GP) \cite{back,spall03}.
 %
-The most popular EA algorithm for real-parametric optimization is Differential Evolution (DE).
-DE was introduced by Storn and Price \cite{ed1995}  for global optimization over continuous spaces.\\
+The most popular EA algorithm for real-parametric optimization is Differential 
+Evolution (DE). DE was introduced by Storn and Price \cite{ed1995}  for global 
+optimization over continuous spaces.\\
 %
 
 The second main branch of meta-heuristics are physical metaphors inspired algorithms
-Some of the most popular algorithms are Gravitational  Search Algorithm (GSA) \cite{rashedi2009gsa}, Gravitational Local Search (GLSA) \cite{glsa}, Big-Bang Big-Crunch (BBBC) \cite{erol2006new}, Charged System Search (CSS) \cite{kaveh2010novel}, Central Force Optimization (CFO) \cite{cfo2007}, Black Hole (BH) \cite{hatamlou2013black} algorithm, Ray Optimization (RO) algorithm \cite{kaveh2012new}. Here some recent surveys on this topic \cite{fisicaSurvey,biswas2013physics,xie2011convergence,DBLP:journals/corr/FisterYFBF13}. This kind of algorithms emulate physical systems, for example, in CFO each solution is a body and they move and interact through the space using gravitational force.\\
+Some of the most popular algorithms are Gravitational  Search Algorithm (GSA) 
+\cite{rashedi2009gsa}, Gravitational Local Search (GLSA) \cite{glsa}, Big-Bang 
+Big-Crunch (BBBC) \cite{erol2006new}, Charged System Search (CSS) \cite{kaveh2010novel}, 
+Central Force Optimization (CFO) \cite{cfo2007}, Black Hole (BH) \cite{hatamlou2013black} 
+algorithm, Ray Optimization (RO) algorithm \cite{kaveh2012new}. Here some recent 
+surveys on this topic \cite{fisicaSurvey,biswas2013physics,xie2011convergence,DBLP:journals/corr/FisterYFBF13}. 
+This kind of algorithms emulate physical systems, for example, in CFO each solution 
+is a body and they move and interact through the space using gravitational force.\\
 % 
 
-Finally, the swarms intelligence (SI) methods simulates a social behavior of swarms. Here, each search agents navigate using the simulated collective and social intelligence of creatures. The most popular SI techniques are particle swarm optimization (PSO) \cite{pso1995}, and the artificial bee colony (ABC) \cite{abc2005}. The PSO algorithm is inspired from the social behavior of birds flocking.\\
+Finally, the swarms intelligence (SI) methods simulates a social behavior of 
+swarms. Here, each search agents navigate using the simulated collective and 
+social intelligence  of creatures. The most popular SI techniques are particle 
+swarm optimization (PSO)  \cite{pso1995}, and the artificial bee colony (ABC) 
+\cite{abc2005}. The PSO algorithm  is inspired from the social behavior of birds 
+flocking.\\
 
-In this work, we employ CFO, PSO and ABC equation for generating new solutions. The relationship among those algorithms is their mathematical formulation for generating solutions through an iterative process:
+In this work, we employ CFO, PSO and ABC equation for generating new solutions. 
+The relationship among those algorithms is their mathematical formulation for 
+generating solutions through an iterative process:
 %
 \begin{equation}
 	\vec{x}_{i + 1} = \vec{x}_{i} + \vec{v}_{i + 1}
@@ -126,8 +161,9 @@ where each algorithm updates $\vec{v}_{i+1} $ as follows:
 		where $\omega$ is a inertia weight used for balancing the global search 
 		and local search, $\vec{x}_{pbest, i}$ and $\vec{x}_{gbest, i}$ are the 
 		best position reached by solution $i$ so far and the best solution in the 
-		population, respectively; $c_1$ and $c_2$ are two positive constants, $r_{1, i},\; r_{2, i}$ 
-		are random numbers with uniform distribution in the range [0, 1].
+		population, respectively; $c_1$ and $c_2$ are two positive constants, 
+		$r_{1, i},\; r_{2, i}$  are random numbers with uniform distribution in 
+		the range [0, 1].
 	%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 	\item ABC:
 		$$
@@ -151,9 +187,14 @@ relates to what has been  described above.
 \section{Evolutionary Centers Algorithm} % (fold)
 \label{sec:eca}
 
-In this section, constraint handling (CH) and evolutionary centers algorithm (ECA) is detailed. First, ECA is detailed and consequently CH take place for CH-ECA implementation.\\
+In this section, constraint handling (CH) and evolutionary centers algorithm (ECA) 
+is detailed. First, ECA is detailed and consequently CH take place for CH-ECA 
+implementation.\\
 
-Our approach is based on the center of mass definition and is utilized for creating new directions for moving the worst  elements in the population, based on their objective function values and constraint violations, to feasible regions of the search space.
+Our approach is based on the center of mass definition and is utilized for creating 
+new directions for moving the worst  elements in the population, based on their 
+objective function values and constraint violations, to feasible regions of the 
+search space.
 
 %
 %
@@ -161,15 +202,15 @@ Our approach is based on the center of mass definition and is utilized for creat
 The center of mass is a geometric property of any body. Intuitively, it is the 
 average location of the weight of an object. We can completely describe the motion 
 of any object through space in terms of the translation of the center of mass of 
-the object from one place to another. This is the motivation for using the center of mass
-concept, we translate the population to places where the mass of the entire population is
-maximum.
+the object from one place to another. This is the motivation for using the center 
+of mass concept, we translate the population to places where the mass of the entire 
+population is maximum.
 % 
 
-In mathematical terms, the center of mass is the unique point $\vec{c}$ at the center of a distribution
-of mass $U = \{\vec{u}_1,\; \vec{u}_2 , \ldots , \vec{u}_K \}$ in a space that 
-has the property that the weighted sum of position vectors relative to this point 
-is zero \cite{kleppner73,serway}. That is:
+In mathematical terms, the center of mass is the unique point $\vec{c}$ at the 
+center of a distribution of mass $U = \{\vec{u}_1,\; \vec{u}_2 , \ldots , \vec{u}_K \}$ 
+in a space that has the property that the weighted sum of position vectors 
+relative to this point  is zero \cite{kleppner73,serway}. That is:
 %
 %
 \begin{equation}
@@ -181,14 +222,15 @@ is zero \cite{kleppner73,serway}. That is:
 %
 %
 where $m(\vec{u}_i)$ is the mass of $\vec{u}_i$ and  $M$ is the sum of the 
-masses of vectors in $U$. Here, $m$ is a non-negative function. Similar as in Statistics, the center of mass is the mean location of a distribution 
+masses of vectors in $U$. Here, $m$ is a non-negative function. Similar as in 
+Statistics, the center of mass is the mean location of a distribution 
 of mass in space.\\
 
 
 In this work, the objective function of the optimization problem represents 
-the mass of each solution in the population,  i.e., we set $f(\vec{x}) = m(\vec{x})$ for all $\mathbb{R}^D$. 
-Without loss of generality, we assume that we want to maximize 
-the non-negative function $f$.
+the mass of each solution in the population,  i.e., we set $f(\vec{x}) = m(\vec{x})$ 
+for all $\mathbb{R}^D$.  Without loss of generality, we assume that we want to 
+maximize  the non-negative function $f$.
 
 
 
@@ -196,8 +238,8 @@ the non-negative function $f$.
 \subsection{Algorithm Description} % (fold)
 \label{sub:algorithm_description}
 
-For each solution $\vec{x}_i $ in the population $P = \{ \vec{x}_1, \vec{x}_2, \ldots, \vec{x}_{N} \} $ of $N$ 
-solutions, we select a subset $U \subset P $ with $K$ solutions; then, 
+For each solution $\vec{x}_i $ in the population $P = \{ \vec{x}_1, \vec{x}_2, \ldots, \vec{x}_{N} \} $ 
+of $N$  solutions, we select a subset $U \subset P $ with $K$ solutions; then, 
 from $U$ we obtain the center of mass $\vec{c}$. After that, based on 
 a randomly chosen solution $\vec{u}_r \in U$,  
 and the already generated center of mass $\vec{c}$, we generate a direction 
@@ -217,8 +259,8 @@ where
 	\label{eqn:center}
 \end{equation}
 
-If $f$ is a positive constant function, then the center of mass of $U$ is the geometric 
-center of  $U$. That is, assume that $f(\vec{x}) = \alpha$ for every 
+If $f$ is a positive constant function, then the center of mass of $U$ is the 
+geometric center of  $U$. That is, assume that $f(\vec{x}) = \alpha$ for every 
 $\vec{x} \in \mathbb{R}^D$,  with $\alpha$ a positive constant. The 
 center of mass is:
 %
@@ -252,7 +294,11 @@ its position, see Figure \ref{fig:masses}.
 \subsection{Constraint Handling} % (fold)
 \label{sec:constraint_handling}
 
-Initialization with feasible solutions is very time consuming process and in some cases it is impossible to produce a feasible solution randomly \cite{castillofoundations}, CH-ECA does not consider the initial population to be feasible. Now, consider the following rules for constraint handling. For a constrained optimization problem, we select $\vec{y}$ instead $\vec{x}$ if
+Initialization with feasible solutions is very time consuming process and in some 
+cases it is impossible to produce a feasible solution randomly \cite{castillofoundations}, 
+CH-ECA does not consider the initial population to be feasible. Now, consider the 
+following rules for constraint handling. For a constrained optimization problem, 
+we select $\vec{y}$ instead $\vec{x}$ if
 
 \begin{equation}
 	\begin{cases}
@@ -288,14 +334,19 @@ with
 	%
 \end{eqnarray}
 %
-Note that, $G_i(\vec{x})$ and $H_i(\vec{x})$ are zero when the solution is feasible. Also, they are non-negative functions. Here, according to \cite{cecCop17}, we set tolerance $\varepsilon = 0.0001$ and $g_i(\vec{x}) \leq 0,\ h_j(\vec{x}) = 0$ are $m$ constraints.\\
+Note that, $G_i(\vec{x})$ and $H_i(\vec{x})$ are zero when the solution is feasible. 
+Also, they are non-negative functions. Here, according to \cite{cecCop17}, we set 
+tolerance $\varepsilon = 0.0001$ and $g_i(\vec{x}) \leq 0,\ h_j(\vec{x}) = 0$ are 
+$m$ constraints.\\
 
-Structure of the algorithm already directs the solutions to feasible region in running process due to the rules in Equation  \ref{eqn:rules} employed.
+Structure of the algorithm already directs the solutions to feasible region in 
+running process due to the rules in Equation  \ref{eqn:rules} employed.
 
 
 \subsection{Population Replacement} % (fold)
 
-Let $P$ and $A$  be  non-empty sets of individuals. Random elements in $P$ are replaced with elements in $A$ if they are not better than elements in $A$.
+Let $P$ and $A$  be  non-empty sets of individuals. Random elements in $P$ are 
+replaced with elements in $A$ if they are not better than elements in $A$.
 
 \begin{figure}[!ht]
 	\centering
@@ -305,7 +356,10 @@ Let $P$ and $A$  be  non-empty sets of individuals. Random elements in $P$ are r
 	\label{fig:ecag}       % Give a unique label
 \end{figure}
 
-Note that our approach (see Algorithm \ref{alg:ch.eca}) has only two parameters: the number of neighbors $K$ and  the stepsize $\eta_{\max}$.  For large $K$ values, CH-ECA could converge  faster, we suggest $K = 7$, a value obtained experimentally. Figure \ref{fig:ecag} shows a representation of CH-ECA solution update. 
+Note that our approach (see Algorithm \ref{alg:ch.eca}) has only two parameters: 
+the number of neighbors $K$ and  the stepsize $\eta_{\max}$.  For large $K$ values, 
+CH-ECA could converge  faster, we suggest $K = 7$, a value obtained experimentally. 
+Figure \ref{fig:ecag} shows a representation of CH-ECA solution update. 
 
 \begin{algorithm}[!ht]
 	\caption{CH-ECA Algorithm}
@@ -324,7 +378,8 @@ Note that our approach (see Algorithm \ref{alg:ch.eca}) has only two parameters:
 				\STATE Generate $U \subset P$ such that  card$(U) = K$
 				\STATE Calculate $\vec{c}$ using $U$ with (\ref{eqn:center})
 				\STATE $\eta \gets \text{rand}(0,\; \eta_{\max}) $ 
-				\STATE $\vec{y} \gets \vec{x} + \eta  * (\vec{c} - \vec{u}) $ where $ \vec{u} \in U $ random
+				\STATE $\vec{y} \gets \vec{x} + \eta  * (\vec{c} - \vec{u}) $ %
+						where $ \vec{u} \in U $ random
 				
 				\IF{ $\vec{y}$ or $\vec{x}$ using rules \ref{eqn:rules}}
 					\STATE Append $\vec{y} $ in $A$
@@ -344,42 +399,69 @@ Note that our approach (see Algorithm \ref{alg:ch.eca}) has only two parameters:
 \label{sec:experiments}
 
 In order to evaluate the performance of the CH-ECA, we used a set of
-28 benchmark problems can be found in \cite{cecCop17}. This set includes both forms of objective function such as separable and non-separable.\\
+28 benchmark problems can be found in \cite{cecCop17}. This set includes both 
+forms of objective function such as separable and non-separable.\\
 
-According to problem set \cite{cecCop17}, maximum function evaluations (MAXFES) was set at $20000 \times D$ and 25
-independent runs of the proposed algorithm were recorded on
-28 test problem functions for $D = 10, 30, 50$ and 100, with the same CH-ECA parameters for all experiments:
+According to problem set \cite{cecCop17}, maximum function evaluations (MAXFES) 
+was set at $20000 \times D$ and 25 independent runs of the proposed algorithm 
+were recorded on 28 test problem functions for $D = 10, 30, 50$ and 100, with 
+the same CH-ECA parameters for all experiments:
 
 \begin{itemize}
 	\item Inputs: $K = 7$, $\eta_{\max} = 2$. 
 	\item Population size: $N = 2K * D$.
 	\item Stop Condition: when MAXFES is reached.
-	\item $\eta$ in step 9 in Algorithm \ref{alg:ch.eca} is a uniform random number between in $(0,\ \eta_{\max} ]$.
+	\item $\eta$ in step 9 in Algorithm \ref{alg:ch.eca} is a uniform random 
+		  number between in $(0,\ \eta_{\max} ]$.
 \end{itemize}
 
-This benchmark contains a wide variety of objective and constraint functions. The mathematical formulas and properties of these functions are described explicitly but they are treated as a black box problem \cite{jones1998efficient}.
+This benchmark contains a wide variety of objective and constraint functions. The 
+mathematical formulas and properties of these functions are described explicitly 
+but they are treated as a black box problem \cite{jones1998efficient}.
 
 % section experiments (end)
 
 \section{Results} % (fold)
 \label{sec:results}
 
-Results show best, worst, mean, and standard deviation values of objective function and SR which is the feasibility rate defined as \textit{(\# of feasible runs) / Total runs}, where a feasible run is a run during which at least one feasible solution is found in MAXFES.\\
+Results show best, worst, mean, and standard deviation values of objective 
+function  and SR which is the feasibility rate defined as 
+\textit{(\# of feasible runs) / Total runs},  where a feasible run is a run 
+during which at least one feasible solution is found in MAXFES.\\
 % 
 
-Experimental results obtained by CH-ECA are reported in Tables \ref{tab:d10}, \ref{tab:d30}, \ref{tab:d50} and \ref{tab:d100} for dimension 10, 30, 50 and 100 respectively. It is worth noting that CH-ECA obtained results on feasible regions (feasible ratio equal 100\%) while reporting low standard deviation values. Therefore, CH-ECA behavior can be considered as robust and suitable to deal with different type of search spaces and feasible regions. This was observed in low dimensions. \\
+Experimental results obtained by CH-ECA are reported in Tables \ref{tab:d10}, \ref{tab:d30}, 
+\ref{tab:d50} and \ref{tab:d100} for dimension 10, 30, 50 and 100 respectively. 
+It is worth noting that CH-ECA obtained results on feasible regions (feasible 
+ratio equal 100\%) while reporting low standard deviation values. Therefore, CH-ECA 
+behavior can be considered as robust and suitable to deal with different type of 
+search spaces and feasible regions. This was observed in low dimensions. \\
 % 
 
 Furthermore, we compared CH-ECA against a  competitive algorithm in 
-the CEC 2017 competition on constrained real-parameter single-objective optimization (CAL-SHADE) \cite{zamuda2017adaptive}, which is an adaptive algorithm based on differential evolution. The comparison based on 25 independent runs by each algorithm is presented in Tables \ref{tab:d10c}, \ref{tab:d30c}, \ref{tab:d50c} and \ref{tab:d100c} for dimension 10, 30, 50 and 100 respectively. In such Tables last column contain a ``$\approx$'', ``--'' or ``+'' symbol. ``+'' means that CH-ECA outperformed CAL-SHADE in the function  %
-	in the corresponding row, ``-'' means that CAL-SHADE outperformed ECA, and  %
-	``$\approx$'' means that no difference was observed between algorithms. Here, ``algorithm $\mathcal{A}_1$ outperforms algorithm $\mathcal{A}_2$'' means SR$_{\mathcal{A}_1} > $ SR$_{\mathcal{A}_2}$ or (SR$_{\mathcal{A}_1} = $ SR$_{\mathcal{A}_2}) \wedge ($ Mean$_{A_1} < $ Mean$_{A_2}$). This is a simplified ranking method based on \cite{cecCop17}. \\
+the CEC 2017 competition on constrained real-parameter single-objective optimization 
+(CAL-SHADE) \cite{zamuda2017adaptive}, which is an adaptive algorithm based on 
+differential evolution. The comparison based on 25 independent runs by each algorithm 
+is presented in Tables \ref{tab:d10c}, \ref{tab:d30c}, \ref{tab:d50c} and 
+\ref{tab:d100c} for dimension 10, 30, 50 and 100 respectively. In such Tables last 
+column contain a ``$\approx$'', ``--'' or ``+'' symbol. ``+'' means that CH-ECA 
+outperformed CAL-SHADE in the function in the corresponding row, ``-'' means that 
+CAL-SHADE outperformed ECA, and  ``$\approx$'' means that no difference was 
+observed between algorithms. Here, ``algorithm $\mathcal{A}_1$ outperforms algorithm 
+$\mathcal{A}_2$'' means SR$_{\mathcal{A}_1} > $ SR$_{\mathcal{A}_2}$ or 
+(SR$_{\mathcal{A}_1} = $ SR$_{\mathcal{A}_2}) \wedge ($ Mean$_{A_1} < $ Mean$_{A_2}$). 
+This is a simplified ranking method based on \cite{cecCop17}. \\
 
-As we can see in Table \ref{tab:d10c}, CH-ECA was able to outperform CAL-SHADE in eighteen test functions, it reached similar results in two test problems, and finally CH-ECA was outperformed by CAL-SHADE in eight functions. CH-ECA was then competitive in twenty test problems. %
+As we can see in Table \ref{tab:d10c}, CH-ECA was able to outperform CAL-SHADE in 
+eighteen test functions, it reached similar results in two test problems, and 
+finally CH-ECA was outperformed by CAL-SHADE in eight functions. CH-ECA was then 
+competitive in twenty test problems. %
 %
-Table \ref{tab:d30c} shows that our approach was able to outperform CAL-SHADE in twelve test functions and CH-ECA was outperformed by CAL-SHADE in sixteen functions.
+Table \ref{tab:d30c} shows that our approach was able to outperform CAL-SHADE in 
+twelve test functions and CH-ECA was outperformed by CAL-SHADE in sixteen functions.
 %
-In Table \ref{tab:d50c} and \ref{tab:d100c} show a poor performance because of highly dimensionality. Those results are summarized in Table \ref{tab:summary}.
+In Table \ref{tab:d50c} and \ref{tab:d100c} show a poor performance because of 
+highly dimensionality. Those results are summarized in Table \ref{tab:summary}.
 
 \begin{table}[!ht]
 	\caption{Performance Summary.}
@@ -403,17 +485,25 @@ mechanisms to operate.
 \section{Conclusions} % (fold)
 \label{sec:conclusions}
 
-A new meta-heuristic optimization algorithm, denoted as Constraint Handling and Evolutionary Centers  Algorithm, inspired by the center of mass of a system of particles was proposed with constraint handling mechanism that prioritizes the feasible solutions before infeasible. The results showed the capability of CH-ECA to consistently reach feasible regions  in different types of search spaces. CH-ECA also provided 
-a competitive, but still not better, performance against a competitive algorithm in such  competition on constrained real-parameter single-objective optimization. CH-ECA 
-is a simple algorithm which requires the fine-tuning of just two parameters ($K$ and $\eta_{\max}$),  besides the population size.% CH-ECA constraint 
+A new meta-heuristic optimization algorithm, denoted as Constraint Handling and 
+Evolutionary Centers  Algorithm, inspired by the center of mass of a system of 
+particles was proposed with constraint handling mechanism that prioritizes the 
+feasible solutions before infeasible. The results showed the capability of CH-ECA 
+to consistently reach feasible regions  in different types of search spaces. CH-ECA also provided 
+a competitive, but still not better, performance against a competitive algorithm 
+in such  competition on constrained real-parameter single-objective optimization. 
+CH-ECA  is a simple algorithm which requires the fine-tuning of just two parameters 
+($K$ and $\eta_{\max}$),  besides the population size.
 
 % section conclusions (end)
 
 \section{Future Work} % (fold)
 \label{sec:future_work}
 
-The performance of CH-ECA can be also tested for real-world problems existing in the literature and compared with that of other algorithms. Also, the effect of constraint handling methods on the performance of the CH-ECA is part the future work derived 
-from this current research. 
+The performance of CH-ECA can be also tested for real-world problems existing in 
+the literature and compared with that of other algorithms. Also, the effect of 
+constraint handling methods on the performance of the CH-ECA is part the future 
+work derived from this current research. 
 % section future_work (end)
 
 
